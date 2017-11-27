@@ -16,8 +16,8 @@ import (
 type Font struct {
 	Info   Info   `fnt:"info"`
 	Common Common `fnt:"common"`
-	Pages   []Page   `fnt:"page"`
-	Chars   []Char `fnt:"char"`
+	Pages  []Page `fnt:"page"`
+	Chars  []Char `fnt:"char"`
 }
 
 type Info struct {
@@ -71,7 +71,7 @@ type Char struct {
 }
 
 // This function takes a font file as string and converts it into a Font struct.
-func Parse(file string) Font {
+func Parse(file string) (*Font, error) {
 	font := Font{}
 	textLines := strings.Split(file, "\n")
 	lines := map[string][]map[string]string{}
@@ -112,7 +112,7 @@ func Parse(file string) Font {
 			}
 		}
 	}
-	return font
+	return &font, nil //TOTO error handling
 }
 
 // This function takes a list of maps and copies the values in the given slice
