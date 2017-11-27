@@ -1,4 +1,3 @@
-
 // Copyright  2017 Simon Niedermayr.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -17,9 +16,8 @@ import (
 type Font struct {
 	Info   Info   `fnt:"info"`
 	Common Common `fnt:"common"`
-	Page   Page   `fnt:"page"`
-	Chars  Chars  `fnt:"chars"`
-	Char   []Char `fnt:"char"`
+	Pages   []Page   `fnt:"page"`
+	Chars   []Char `fnt:"char"`
 }
 
 type Info struct {
@@ -31,18 +29,23 @@ type Info struct {
 	Unicode  bool   `fnt:"unicode"`
 	StretchH int    `fnt:"stretchH"`
 	Smooth   bool   `fnt:"smooth"`
-	AA       bool   `fnt:"aa"`
+	AA       int    `fnt:"aa"`
 	Padding  [4]int `fnt:"padding"`
 	Spacing  [2]int `fnt:"spacing"`
+	Outline  int    `fnt:"outline"`
 }
 
 type Common struct {
-	LineHeight int  `fnt:"lineHeight"`
-	Base       int  `fnt:"base"`
-	ScaleW     int  `fnt:"scaleW"`
-	ScaleH     int  `fnt:"scaleH"`
-	Pages      int  `fnt:"pages"`
-	Packed     bool `fnt:"packed"`
+	LineHeight   int  `fnt:"lineHeight"`
+	Base         int  `fnt:"base"`
+	ScaleW       int  `fnt:"scaleW"`
+	ScaleH       int  `fnt:"scaleH"`
+	Pages        int  `fnt:"pages"`
+	Packed       bool `fnt:"packed"`
+	AlphaChannel int8 `fnt:"alphaChnl"`
+	RedChannel   int8 `fnt:"redChnl"`
+	GreenChannel int8 `fnt:"greenChnl"`
+	BlueChannel  int8 `fnt:"blueChnl"`
 }
 
 type Page struct {
