@@ -53,19 +53,15 @@ type Page struct {
 	File string `fnt:"file"`
 }
 
-type Chars struct {
-	Count int `fnt:"count"`
-}
-
 type Char struct {
-	Id        int `fnt:"id"`
+	Id        int32 `fnt:"id"`
 	X         int `fnt:"x"`
 	Y         int `fnt:"y"`
 	Width     int `fnt:"width"`
 	Height    int `fnt:"height"`
 	XOffset   int `fnt:"xoffset"`
 	YOffset   int `fnt:"yoffset"`
-	XAdvanced int `fnt:"xadvanced"`
+	XAdvanced int `fnt:"xadvance"`
 	Page      int `fnt:"page"`
 	Chnl      int `fnt:"chnl"`
 }
