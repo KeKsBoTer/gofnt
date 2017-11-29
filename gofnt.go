@@ -14,56 +14,56 @@ import (
 )
 
 type Font struct {
-	Info   Info   `fnt:"info"`
-	Common Common `fnt:"common"`
-	Pages  []Page `fnt:"page"`
-	Chars  []Char `fnt:"char"`
+	Info   Info   `json:"info"`
+	Common Common `json:"common"`
+	Pages  []Page `json:"page"`
+	Chars  []Char `json:"char"`
 }
 
 type Info struct {
-	Name     string `fnt:"face"`
-	Size     int    `fnt:"size"`
-	Bold     bool   `fnt:"bold"`
-	Italic   bool   `fnt:"italic"`
-	Charset  string `fnt:"charset"`
-	Unicode  bool   `fnt:"unicode"`
-	StretchH int    `fnt:"stretchH"`
-	Smooth   bool   `fnt:"smooth"`
-	AA       int    `fnt:"aa"`
-	Padding  [4]int `fnt:"padding"`
-	Spacing  [2]int `fnt:"spacing"`
-	Outline  int    `fnt:"outline"`
+	Name     string `json:"face"`
+	Size     int    `json:"size"`
+	Bold     bool   `json:"bold"`
+	Italic   bool   `json:"italic"`
+	Charset  string `json:"charset"`
+	Unicode  bool   `json:"unicode"`
+	StretchH int    `json:"stretchH"`
+	Smooth   bool   `json:"smooth"`
+	AA       int    `json:"aa"`
+	Padding  [4]int `json:"padding"`
+	Spacing  [2]int `json:"spacing"`
+	Outline  int    `json:"outline"`
 }
 
 type Common struct {
-	LineHeight   int  `fnt:"lineHeight"`
-	Base         int  `fnt:"base"`
-	ScaleW       int  `fnt:"scaleW"`
-	ScaleH       int  `fnt:"scaleH"`
-	Pages        int  `fnt:"pages"`
-	Packed       bool `fnt:"packed"`
-	AlphaChannel int8 `fnt:"alphaChnl"`
-	RedChannel   int8 `fnt:"redChnl"`
-	GreenChannel int8 `fnt:"greenChnl"`
-	BlueChannel  int8 `fnt:"blueChnl"`
+	LineHeight   int  `json:"lineHeight"`
+	Base         int  `json:"base"`
+	ScaleW       int  `json:"scaleW"`
+	ScaleH       int  `json:"scaleH"`
+	Pages        int  `json:"pages"`
+	Packed       bool `json:"packed"`
+	AlphaChannel int8 `json:"alphaChnl"`
+	RedChannel   int8 `json:"redChnl"`
+	GreenChannel int8 `json:"greenChnl"`
+	BlueChannel  int8 `json:"blueChnl"`
 }
 
 type Page struct {
-	Id   int    `fnt:"id"`
-	File string `fnt:"file"`
+	Id   int    `json:"id"`
+	File string `json:"file"`
 }
 
 type Char struct {
-	Id        int32 `fnt:"id"`
-	X         int `fnt:"x"`
-	Y         int `fnt:"y"`
-	Width     int `fnt:"width"`
-	Height    int `fnt:"height"`
-	XOffset   int `fnt:"xoffset"`
-	YOffset   int `fnt:"yoffset"`
-	XAdvanced int `fnt:"xadvance"`
-	Page      int `fnt:"page"`
-	Chnl      int `fnt:"chnl"`
+	Id        int32 `json:"id"`
+	X         int `json:"x"`
+	Y         int `json:"y"`
+	Width     int `json:"width"`
+	Height    int `json:"height"`
+	XOffset   int `json:"xoffset"`
+	YOffset   int `json:"yoffset"`
+	XAdvanced int `json:"xadvance"`
+	Page      int `json:"page"`
+	Chnl      int `json:"chnl"`
 }
 
 // This function takes a font file as string and converts it into a Font struct.
@@ -100,7 +100,7 @@ func Parse(file string) (*Font, error) {
 	for i := 0; i < elm.NumField(); i++ {
 		field := elm.Field(i)
 		fieldTag := elm.Type().Field(i).Tag
-		if tag, exists := fieldTag.Lookup("fnt"); exists {
+		if tag, exists := fieldTag.Lookup("json"); exists {
 			if field.Kind() == reflect.Slice {
 				unmarshalSlice(field, lines[tag])
 			} else {
@@ -125,10 +125,10 @@ func unmarshalSlice(field reflect.Value, values []map[string]string) {
 }
 
 // This function copies the values from the map into the corresponding struct fields in the given field.
-// Which value belongs to which field in the struct is determined by the "fnt" tag of a field.
+// Which value belongs to which field in the struct is determined by the "json" tag of a field.
 // e.g.
 // type Test struct{
-// 		field1 string `fnt="fieldOne"`
+// 		field1 string `json="fieldOne"`
 // }
 // testMap := map[string]string{"fieldOne":"valueOne"}
 //
@@ -137,7 +137,7 @@ func unmarshal(field reflect.Value, values map[string]string) {
 	for j := 0; j < field.NumField(); j++ {
 		subField := field.Field(j)
 		subFieldTag := field.Type().Field(j).Tag
-		if name, exists := subFieldTag.Lookup("fnt"); exists {
+		if name, exists := subFieldTag.Lookup("json"); exists {
 			copyValue(subField, []byte(values[name]))
 		}
 
